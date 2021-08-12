@@ -1,7 +1,8 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_flutter/Forget_Password.dart';
-
+import 'Dashboard.dart';
 import 'Registration.dart';
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -11,6 +12,25 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  void initState() {
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((message) {
+      if (message.notification != null) {
+        print(message.notification!.body);
+        print(message.notification!.title);
+      }
+      print("message recieved ");
+
+
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+
+      final routepage = message.data["route"];
+      Navigator.of(context).pushNamed(routepage);
+      print("ths is second page____________________");
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -82,7 +102,7 @@ class _LoginState extends State<Login> {
 
                       Align(
                         alignment:Alignment(-0.81,-0.75),
-                          child: Text('Happy to see you again',style:TextStyle(fontSize:14,fontWeight:FontWeight.bold))
+                          child: Text('Happy to see you again',style:TextStyle(color:Colors.blueGrey,fontWeight:FontWeight.bold))
                       ),
 
 
@@ -108,7 +128,7 @@ class _LoginState extends State<Login> {
                         height:30,
                       ),
 
-                      btn(),
+                      btn(Dashboard()),
 
                       Container(
                         width:MediaQuery.of(context).size.width*0.85,
@@ -156,14 +176,14 @@ class _LoginState extends State<Login> {
       )
     );
   }
-  Widget btn(){
+  Widget btn(route){
     return Container(
 
       width:MediaQuery.of(context).size.width*0.86,
       height:50,
 
       child: ElevatedButton(onPressed: () {
-
+              Navigator.push(context, MaterialPageRoute(builder: (context) => route ));
       },
         child: Text('Login',style:TextStyle(letterSpacing: 0.5,fontSize:22,fontWeight: FontWeight.bold,color: Colors.white),),
         style: ElevatedButton.styleFrom(

@@ -31,6 +31,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   animated_splash_screen:
   video_player:
+  cloud_firestore:
+  firebase_core:
+  dio:
+  flutter_svg:
+  firebase_messaging:
+  flutter_local_notifications:
+
 
 dev_dependencies:
   flutter_test:
